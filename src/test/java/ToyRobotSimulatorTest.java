@@ -17,6 +17,7 @@ public class ToyRobotSimulatorTest {
     public void placeRobotOnTabletop(){
         Tabletop tabletop = createTabletop();
         Robot robot = createRobot();
-        tabletop.place(robot);
+        Simulator simulator = new Simulator(tabletop);
+        simulator.place(robot);
     }
 }
