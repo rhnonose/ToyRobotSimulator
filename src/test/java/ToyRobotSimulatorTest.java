@@ -104,4 +104,14 @@ public class ToyRobotSimulatorTest {
         Assert.assertEquals("Should parse commands to strings", commandList, expected);
         parser.runSimulator();
     }
+    
+    @Test
+    public void runExtendedExample() throws IOException {
+        ToyRobotCommandParser parser = new ToyRobotCommandParser(new File("src/test/resources/extended.txt"));
+        parser.parse();
+        List<String> commandList = parser.getCommandList();
+        List<String> expected = Arrays.asList("PLACE 2,2,SOUTH", "MOVE", "MOVE", "RIGHT", "MOVE", "MOVE", "REPORT", "MOVE", "RIGHT", "MOVE", "MOVE", "LEFT", "MOVE", "RIGHT", "MOVE", "MOVE", "MOVE", "REPORT");
+        Assert.assertEquals("Should parse commands to strings", commandList, expected);
+        parser.runSimulator();
+    }
 }
