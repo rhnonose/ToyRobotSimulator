@@ -1,3 +1,4 @@
+import org.junit.Assert;
 import org.junit.Test;
 
 /**
@@ -13,11 +14,69 @@ public class ToyRobotSimulatorTest {
         return new Robot(0, 0, Direction.NORTH);
     }
 
-    @Test
     public void placeRobotOnTabletop(){
         Tabletop tabletop = createTabletop();
         Robot robot = createRobot();
         Simulator simulator = new Simulator(tabletop);
         simulator.place(robot);
+    }
+
+    @Test
+    public void turnRobot(){
+        Tabletop tabletop = createTabletop();
+        Robot robot = createRobot();
+        Simulator simulator = new Simulator(tabletop);
+        simulator.place(robot);
+        simulator.turn(Rotation.LEFT);
+        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.WEST);
+        simulator.turn(Rotation.LEFT);
+        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.SOUTH);
+        simulator.turn(Rotation.LEFT);
+        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.EAST);
+        simulator.turn(Rotation.LEFT);
+        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.NORTH);
+        simulator.turn(Rotation.RIGHT);
+        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.EAST);
+        simulator.turn(Rotation.RIGHT);
+        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.SOUTH);
+        simulator.turn(Rotation.RIGHT);
+        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.WEST);
+        simulator.turn(Rotation.RIGHT);
+        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.NORTH);
+    }
+
+    @Test
+    public void moveRobot(){
+        Tabletop tabletop = createTabletop();
+        Robot robot = createRobot();
+        Simulator simulator = new Simulator(tabletop);
+        simulator.place(robot);
+        simulator.move();
+        Assert.assertEquals("Should stay in the same column", simulator.getRobot().getX(), 0);
+        Assert.assertEquals("Should walk one row up", simulator.getRobot().getY(), 1);
+        Assert.assertEquals("Should face same direction", simulator.getRobot().getFacing(), Direction.NORTH);
+        simulator.move();
+        Assert.assertEquals("Should stay in the same column", simulator.getRobot().getX(), 0);
+        Assert.assertEquals("Should walk one row up", simulator.getRobot().getY(), 2);
+        Assert.assertEquals("Should face same direction", simulator.getRobot().getFacing(), Direction.NORTH);
+        simulator.turn(Rotation.RIGHT);
+        simulator.move();
+        Assert.assertEquals("Should walk one column east", simulator.getRobot().getX(), 1);
+        Assert.assertEquals("Should stay in the same row", simulator.getRobot().getY(), 2);
+        Assert.assertEquals("Should change direction to east", simulator.getRobot().getFacing(), Direction.EAST);
+    }
+
+    @Test
+    public void ignoreInvalidMovement(){
+        Tabletop tabletop = createTabletop();
+        Robot robot = createRobot();
+        Simulator simulator = new Simulator(tabletop);
+        simulator.place(robot);
+        simulator.turn(Rotation.LEFT);
+        simulator.turn(Rotation.LEFT);
+        simulator.move();
+        Assert.assertEquals("Should stay in the same column", simulator.getRobot().getX(), 0);
+        Assert.assertEquals("Should stay in the same row", simulator.getRobot().getY(), 0);
+        Assert.assertEquals("Should change direction to south", simulator.getRobot().getFacing(), Direction.SOUTH);
     }
 }

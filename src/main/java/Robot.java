@@ -20,4 +20,12 @@ public class Robot {
     public int getY() {
         return y;
     }
+
+    public Direction getFacing() {
+        return facing;
+    }
+
+    public void setFacing(Direction facing) {
+        this.facing = facing;
+    }
 }
