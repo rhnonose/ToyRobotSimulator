@@ -1,6 +1,10 @@
 import org.junit.Assert;
 import org.junit.Test;
 
+import java.io.*;
+import java.util.Arrays;
+import java.util.List;
+
 /**
  * Created by Rodrigo on 10/06/2016.
  */
@@ -78,5 +82,14 @@ public class ToyRobotSimulatorTest {
         Assert.assertEquals("Should stay in the same column", simulator.getRobot().getX(), 0);
         Assert.assertEquals("Should stay in the same row", simulator.getRobot().getY(), 0);
         Assert.assertEquals("Should change direction to south", simulator.getRobot().getFacing(), Direction.SOUTH);
+    }
+
+    @Test
+    public void parseCommands() throws IOException {
+        ToyRobotCommandParser parser = new ToyRobotCommandParser(new File("src/test/resources/example_a.txt"));
+        parser.parse();
+        List<String> commandList = parser.getCommandList();
+        List<String> expected = Arrays.asList("PLACE 0,0,NORTH", "MOVE", "LEFT", "RIGHT", "REPORT");
+        Assert.assertEquals("Should parse commands to strings", commandList, expected);
     }
 }

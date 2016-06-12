@@ -16,6 +16,9 @@ public class Simulator {
     }
 
     public void turn(Rotation rotation){
+        if(robot == null){
+            return;
+        }
         switch (robot.getFacing()) {
             case NORTH:
                 if(rotation.equals(Rotation.LEFT))
@@ -52,6 +55,7 @@ public class Simulator {
     }
 
     public void move() {
+        if(robot == null);
         Robot newRobot;
         switch (robot.getFacing()){
             case NORTH:
