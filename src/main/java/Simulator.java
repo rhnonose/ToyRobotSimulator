@@ -55,7 +55,9 @@ public class Simulator {
     }
 
     public void move() {
-        if(robot == null);
+        if(robot == null){
+            return;
+        }
         Robot newRobot;
         switch (robot.getFacing()){
             case NORTH:
@@ -85,7 +87,10 @@ public class Simulator {
         }
     }
 
-    public Robot getRobot() {
-        return robot;
+    public String report() {
+        if(robot == null){
+            return "Robot not placed";
+        }
+        return Integer.toString(robot.getX()) + "," + Integer.toString(robot.getY()) + "," + robot.getFacing();
     }
 }

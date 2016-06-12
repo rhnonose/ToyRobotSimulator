@@ -32,21 +32,21 @@ public class ToyRobotSimulatorTest {
         Simulator simulator = new Simulator(tabletop);
         simulator.place(robot);
         simulator.turn(Rotation.LEFT);
-        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.WEST);
+        Assert.assertEquals("Should rotate", simulator.report(), "0,0,WEST");
         simulator.turn(Rotation.LEFT);
-        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.SOUTH);
+        Assert.assertEquals("Should rotate", simulator.report(), "0,0,SOUTH");
         simulator.turn(Rotation.LEFT);
-        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.EAST);
+        Assert.assertEquals("Should rotate", simulator.report(), "0,0,EAST");
         simulator.turn(Rotation.LEFT);
-        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.NORTH);
+        Assert.assertEquals("Should rotate", simulator.report(), "0,0,NORTH");
         simulator.turn(Rotation.RIGHT);
-        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.EAST);
+        Assert.assertEquals("Should rotate", simulator.report(), "0,0,EAST");
         simulator.turn(Rotation.RIGHT);
-        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.SOUTH);
+        Assert.assertEquals("Should rotate", simulator.report(), "0,0,SOUTH");
         simulator.turn(Rotation.RIGHT);
-        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.WEST);
+        Assert.assertEquals("Should rotate", simulator.report(), "0,0,WEST");
         simulator.turn(Rotation.RIGHT);
-        Assert.assertEquals(simulator.getRobot().getFacing(), Direction.NORTH);
+        Assert.assertEquals("Should rotate", simulator.report(), "0,0,NORTH");
     }
 
     @Test
@@ -56,18 +56,12 @@ public class ToyRobotSimulatorTest {
         Simulator simulator = new Simulator(tabletop);
         simulator.place(robot);
         simulator.move();
-        Assert.assertEquals("Should stay in the same column", simulator.getRobot().getX(), 0);
-        Assert.assertEquals("Should walk one row up", simulator.getRobot().getY(), 1);
-        Assert.assertEquals("Should face same direction", simulator.getRobot().getFacing(), Direction.NORTH);
+        Assert.assertEquals("Should walk one row up", simulator.report(), "0,1,NORTH");
         simulator.move();
-        Assert.assertEquals("Should stay in the same column", simulator.getRobot().getX(), 0);
-        Assert.assertEquals("Should walk one row up", simulator.getRobot().getY(), 2);
-        Assert.assertEquals("Should face same direction", simulator.getRobot().getFacing(), Direction.NORTH);
+        Assert.assertEquals("Should walk one row up", simulator.report(), "0,2,NORTH");
         simulator.turn(Rotation.RIGHT);
         simulator.move();
-        Assert.assertEquals("Should walk one column east", simulator.getRobot().getX(), 1);
-        Assert.assertEquals("Should stay in the same row", simulator.getRobot().getY(), 2);
-        Assert.assertEquals("Should change direction to east", simulator.getRobot().getFacing(), Direction.EAST);
+        Assert.assertEquals("Should walk one row up", simulator.report(), "1,2,EAST");
     }
 
     @Test
@@ -79,9 +73,7 @@ public class ToyRobotSimulatorTest {
         simulator.turn(Rotation.LEFT);
         simulator.turn(Rotation.LEFT);
         simulator.move();
-        Assert.assertEquals("Should stay in the same column", simulator.getRobot().getX(), 0);
-        Assert.assertEquals("Should stay in the same row", simulator.getRobot().getY(), 0);
-        Assert.assertEquals("Should change direction to south", simulator.getRobot().getFacing(), Direction.SOUTH);
+        Assert.assertEquals("Should walk one row up", simulator.report(), "0,0,SOUTH");
     }
 
     @Test
@@ -91,5 +83,25 @@ public class ToyRobotSimulatorTest {
         List<String> commandList = parser.getCommandList();
         List<String> expected = Arrays.asList("PLACE 0,0,NORTH", "MOVE", "LEFT", "RIGHT", "REPORT");
         Assert.assertEquals("Should parse commands to strings", commandList, expected);
+    }
+
+    @Test
+    public void runExampleB() throws IOException {
+        ToyRobotCommandParser parser = new ToyRobotCommandParser(new File("src/test/resources/example_B.txt"));
+        parser.parse();
+        List<String> commandList = parser.getCommandList();
+        List<String> expected = Arrays.asList("PLACE 0,0,NORTH", "LEFT", "REPORT");
+        Assert.assertEquals("Should parse commands to strings", commandList, expected);
+        parser.runSimulator();
+    }
+
+    @Test
+    public void runExampleC() throws IOException {
+        ToyRobotCommandParser parser = new ToyRobotCommandParser(new File("src/test/resources/example_c.txt"));
+        parser.parse();
+        List<String> commandList = parser.getCommandList();
+        List<String> expected = Arrays.asList("PLACE 1,2,EAST", "MOVE", "MOVE", "LEFT", "MOVE", "REPORT");
+        Assert.assertEquals("Should parse commands to strings", commandList, expected);
+        parser.runSimulator();
     }
 }
