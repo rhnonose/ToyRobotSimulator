@@ -85,25 +85,34 @@ public class ToyRobotSimulatorTest {
 
     @Test
     public void runExampleB() throws IOException {
-        List<String> commandList = ToyRobotCommandParser.parse(new File("src/test/resources/example_B.txt"));
-        List<String> expected = Arrays.asList("PLACE 0,0,NORTH", "LEFT", "REPORT");
-        Assert.assertEquals("Should parse commands to strings", commandList, expected);
-        ToySimulatorRunner.runSimulator(commandList);
+        List<String> commandList = ToyRobotCommandParser.parse(new File("src/test/resources/example_b.txt"));
+        Assert.assertEquals("Should parse commands to strings",
+                commandList,
+                Arrays.asList("PLACE 0,0,NORTH", "LEFT", "REPORT"));
+        Assert.assertEquals("Should report position",
+                ToySimulatorRunner.runSimulator(commandList),
+                Arrays.asList("0,0,WEST"));
     }
 
     @Test
     public void runExampleC() throws IOException {
         List<String> commandList = ToyRobotCommandParser.parse(new File("src/test/resources/example_c.txt"));
-        List<String> expected = Arrays.asList("PLACE 1,2,EAST", "MOVE", "MOVE", "LEFT", "MOVE", "REPORT");
-        Assert.assertEquals("Should parse commands to strings", commandList, expected);
-        ToySimulatorRunner.runSimulator(commandList);
+        Assert.assertEquals("Should parse commands to strings",
+                commandList,
+                Arrays.asList("PLACE 1,2,EAST", "MOVE", "MOVE", "LEFT", "MOVE", "REPORT"));
+        Assert.assertEquals("Should report position",
+                ToySimulatorRunner.runSimulator(commandList),
+                Arrays.asList("3,3,NORTH"));
     }
     
     @Test
     public void runExtendedExample() throws IOException {
         List<String> commandList = ToyRobotCommandParser.parse(new File("src/test/resources/extended.txt"));
-        List<String> expected = Arrays.asList("PLACE 2,2,SOUTH", "MOVE", "MOVE", "RIGHT", "MOVE", "MOVE", "REPORT", "MOVE", "RIGHT", "MOVE", "MOVE", "LEFT", "MOVE", "RIGHT", "MOVE", "MOVE", "MOVE", "REPORT");
-        Assert.assertEquals("Should parse commands to strings", commandList, expected);
-        ToySimulatorRunner.runSimulator(commandList);
+        Assert.assertEquals("Should parse commands to strings",
+                commandList,
+                Arrays.asList("PLACE 2,2,SOUTH", "MOVE", "MOVE", "RIGHT", "MOVE", "MOVE", "REPORT", "MOVE", "RIGHT", "MOVE", "MOVE", "LEFT", "MOVE", "RIGHT", "MOVE", "MOVE", "MOVE", "REPORT"));
+        Assert.assertEquals("Should report position",
+                ToySimulatorRunner.runSimulator(commandList),
+                Arrays.asList("0,0,WEST", "0,4,NORTH"));
     }
 }

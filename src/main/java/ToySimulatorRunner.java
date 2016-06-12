@@ -1,3 +1,4 @@
+import java.util.LinkedList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -9,8 +10,9 @@ public class ToySimulatorRunner {
 
     private final static Pattern placePattern = Pattern.compile("PLACE (\\d),(\\d),(NORTH|SOUTH|EAST|WEST)");
 
-    public static void runSimulator(List<String> commandList) {
+    public static List<String> runSimulator(List<String> commandList) {
         Simulator simulator = new Simulator(new Tabletop(5, 5));
+        List<String> reports = new LinkedList<String>();
         for(String command : commandList){
             Matcher matcher = placePattern.matcher(command);
             if(matcher.matches()){
@@ -26,10 +28,11 @@ public class ToySimulatorRunner {
                 continue;
             }
             if("REPORT".equals(command)){
-                System.out.println(simulator.report());
+                reports.add(simulator.report());
                 continue;
             }
             simulator.turn(Rotation.valueOf(command));
         }
+        return reports;
     }
 }
